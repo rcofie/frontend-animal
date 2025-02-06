@@ -77,18 +77,11 @@ button:focus-visible {
 #root {
   width: 100vw;
   height: 100vh;
-} 
-
-
-
-.animal-page > button {
-
-  margin: 20px;
-
 }
 
 .animal-wrapper {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
@@ -103,24 +96,27 @@ button:focus-visible {
   width: 350px;
   background-color: #f9f9f9;
   color: #2196f3;
- 
 }
 
 .animal-animal {
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .animal-image {
-  border-radius: 50%;
   width: 150px;
   height: 150px;
-  object-fit: cover;
+  margin: 0 auto;
+}
+
+.add-animal {
+  width: 200px;
+  margin: 0 auto;
 }
 
 .animal-stats {
   margin-top: 20px;
   display: flex;
-
 }
 
 .stat {
@@ -157,4 +153,53 @@ button:focus-visible {
 
 .action-button:hover {
   background-color: #1976d2;
+}
+
+.dropdown {
+  display: inline-block;
+  cursor: pointer;
+  padding: 10px;
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 5px;
+  list-style: none;
+  margin-top: 5px;
+  width: 150px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: #f0f0f0;
+}
+
+.dropdown-item img {
+  border-radius: 50%;
+  border: 1px solid #ddd;
+}
+
+.dropdown-item.selected {
+  background: #007bff;
+  color: white;
+}
+
+.input {
+  margin-bottom: 20px;
 }
