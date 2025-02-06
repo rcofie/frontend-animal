@@ -4,6 +4,8 @@ interface StatsProps {
   rate: number;
 }
 
+// rate prop is so animals of different types increase/decrease at different rates
+
 export const Stats = ({ rate }: StatsProps) => {
   const [stats, setStats] = useState([
     { stat: "Hunger", fill: 50, action: "Feed" },

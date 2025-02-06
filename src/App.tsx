@@ -15,6 +15,8 @@ const animals: AnimalTypeProps[] = [
   { svg: "Rabbit.svg", rate: 3 },
 ];
 
+// rate prop is so animals of different types increase/decrease at different rates
+
 interface AnimalDataProps {
   name: string;
   type: AnimalTypeProps | null;
