@@ -15,8 +15,6 @@ const animals: AnimalTypeProps[] = [
   { svg: "Rabbit.svg", rate: 3 },
 ];
 
-// rate prop is so animals of different types increase/decrease at different rates
-
 interface AnimalDataProps {
   name: string;
   type: AnimalTypeProps | null;
@@ -27,6 +25,10 @@ function App() {
     {
       name: "Coco",
       type: animals.find((a) => a.svg === "Dog.svg") || null,
+    },
+    {
+      name: "Lydia",
+      type: animals.find((a) => a.svg === "Cat.svg") || null,
     },
     {
       name: "",
@@ -96,7 +98,7 @@ function App() {
               <>
                 <img
                   src={`src/${type.svg}`}
-                  alt="Your animal"
+                  alt={type.svg}
                   className="animal-image"
                 />
                 <Stats rate={type.rate} />
