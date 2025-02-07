@@ -4,7 +4,7 @@ interface StatsProps {
   rate: number;
 }
 
-export const Stats = ({ rate }: StatsProps) => {
+export function Stats({ rate }: StatsProps) {
   const [stats, setStats] = useState([
     { stat: "Hunger", fill: 50, action: "Feed" },
     { stat: "Happiness", fill: 50, action: "Play" },
@@ -13,24 +13,20 @@ export const Stats = ({ rate }: StatsProps) => {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      // hunger and sleepiness should increase over time, happiness should decrease over time
       setStats((prevStats) =>
-        prevStats.map((stat) =>
-          stat.stat === "Hunger" || stat.stat === "Sleepiness"
-            ? { ...stat, fill: Math.min(stat.fill + 0.5 * rate, 100) } // Increase by 0.5
-            : { ...stat, fill: Math.max(stat.fill - 0.5 * rate, 0) }
-        )
+        prevStats.map((stat) => {
+          if (stat.stat === "Hunger" || stat.stat === "Sleepiness") {
+            return { ...stat, fill: Math.min(stat.fill + 0.5 * rate, 100) };
+          }
+          return { ...stat, fill: Math.max(stat.fill - 0.5 * rate, 0) };
+        })
       );
 
-      // happiness should decrease faster when sleep or hunger is full
-      if (
-        stats.some(
-          (stat) =>
-            (stat.stat === "Hunger" || stat.stat === "Sleepiness") &&
-            stat.fill === 100
-        )
-      ) {
-        // set value for happiness to go down by 1 every minute instead - faster
+      const hungerFull = stats.find((s) => s.stat === "Hunger")?.fill === 100;
+      const sleepinessFull =
+        stats.find((s) => s.stat === "Sleepiness")?.fill === 100;
+
+      if (hungerFull || sleepinessFull) {
         setStats((prevStats) =>
           prevStats.map((stat) =>
             stat.stat === "Happiness"
@@ -40,21 +36,24 @@ export const Stats = ({ rate }: StatsProps) => {
         );
       }
     }, 1000);
+
     return () => clearInterval(intervalId);
   }, [rate, stats]);
 
-  const handleClick = (actionStat: string) => {
+  function handleClick(actionStat: string) {
     setStats((prevStats) =>
-      prevStats.map((stat) =>
-        stat.stat === "Happiness" && stat.stat === actionStat
-          ? { ...stat, fill: Math.min(stat.fill + 5 * rate, 100) }
-          : (stat.stat === "Hunger" && stat.stat === actionStat) ||
-            (stat.stat === "Sleepiness" && stat.stat === actionStat)
-          ? { ...stat, fill: Math.max(stat.fill - 5 * rate, 0) }
-          : stat
-      )
+      prevStats.map((stat) => {
+        if (stat.stat === actionStat) {
+          if (stat.stat === "Happiness") {
+            return { ...stat, fill: Math.min(stat.fill + 5 * rate, 100) };
+          }
+          return { ...stat, fill: Math.max(stat.fill - 5 * rate, 0) };
+        }
+        return stat;
+      })
     );
-  };
+  }
+
   return (
     <div className="animal-stats">
       {stats.map((stat, index) => (
@@ -64,9 +63,7 @@ export const Stats = ({ rate }: StatsProps) => {
             <div
               data-testid={`percentage${index}`}
               className="meter-fill"
-              style={{
-                width: `${stat.fill}%`,
-              }}
+              style={{ width: `${stat.fill}%` }}
             ></div>
           </div>
           <button
@@ -79,4 +76,4 @@ export const Stats = ({ rate }: StatsProps) => {
       ))}
     </div>
   );
-};
+}
